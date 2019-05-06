@@ -46,7 +46,7 @@ filterValidTriangles triangles =
 
 
 {-| Write a function that takes a triangle type and a list of triangles and
-returns a list of trinagles that conforms the given type.
+returns a list of triangles that conforms the given type.
 -}
 filterTrianglesByType : TriangleType -> List Triangle -> List Triangle
 filterTrianglesByType triangleType triangles =
