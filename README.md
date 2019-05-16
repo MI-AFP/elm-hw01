@@ -24,3 +24,9 @@ In the file `src/Main.elm`, there is already a structure for the application pre
     - Use `tabStyleActive` for active tab.
 
 To open the application in the web browser, use `elm reactor` then navigate to [http://localhost:8000](http://localhost:8000) and open the `Main.elm` file.
+
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE)
+file for more details.
