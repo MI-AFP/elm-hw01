@@ -18,7 +18,10 @@ import Dict exposing (Dict)
 {-| Represents a triangle with sides a, b, c.
 -}
 type alias Triangle =
-    { a : Float, b : Float, c : Float }
+    { a : Float
+    , b : Float
+    , c : Float
+    }
 
 
 {-| Defines the type of a triangle
