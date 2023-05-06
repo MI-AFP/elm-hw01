@@ -3,6 +3,7 @@ module LibTest exposing
     , testDoubleFirst2
     , testFilterTrianglesByType
     , testFilterValidTriangles
+    , testIndexOf
     , testMakeTriangles
     , testParseValues
     , testSortTrianglesByArea
@@ -23,8 +24,8 @@ testMakeTriangles =
                 let
                     triangles =
                         makeTriangles
-                            [ 1, 2, 3 ]
-                            [ 4, 5, 6 ]
+                            [ 1, 2, 3, 1, 5 ]
+                            [ 4, 5, 6, 4 ]
                             [ 7, 8, 9 ]
                 in
                 Expect.equal triangles [ Triangle 1 4 7, Triangle 2 5 8, Triangle 3 6 9 ]
@@ -40,12 +41,12 @@ testFilterValidTriangles =
                     triangles =
                         filterValidTriangles <|
                             makeTriangles
-                                [ 10, 45, 18, 0, -8 ]
-                                [ 12, 10, 18, 6, -9 ]
-                                [ 22, 45, 18, 9, -7 ]
+                                [ 10, 45, 18, 0, -8, 6, -3, 1, 3 ]
+                                [ 12, 10, 18, 6, -9, 8, -3, 2 ]
+                                [ 22, 45, 18, 9, -7, 10, -3 ]
                 in
                 Expect.equal triangles
-                    [ Triangle 45 10 45, Triangle 18 18 18 ]
+                    [ Triangle 45 10 45, Triangle 18 18 18, Triangle 6 8 9 ]
         ]
 
 
@@ -82,9 +83,9 @@ testFilterTrianglesByType =
                     triangles =
                         filterTrianglesByType Equilateral <|
                             makeTriangles
-                                [ 0, 7, -2, 3, 123, 121 ]
-                                [ 0, 7, -2, 6, 5, 121 ]
-                                [ 0, 7, -2, 9, 8, 121 ]
+                                [ 0, 7, -2, 3, 123, 121, -3 ]
+                                [ 0, 7, -2, 6, 5, 121, 5 ]
+                                [ 0, 7, -2, 9, 8, 121, 5 ]
                 in
                 Expect.equal triangles
                     [ Triangle 7 7 7, Triangle 121 121 121 ]

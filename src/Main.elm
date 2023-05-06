@@ -3,7 +3,6 @@ module Main exposing (main)
 import Browser
 import Html exposing (Attribute, Html)
 import Html.Attributes as Attributes
-import Html.Events as Events
 
 
 main : Program () Model Msg
