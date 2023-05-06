@@ -41,9 +41,9 @@ testFilterValidTriangles =
                     triangles =
                         filterValidTriangles <|
                             makeTriangles
-                                [ 10, 45, 18, 0, -8, 6, -3, 1, 3 ]
-                                [ 12, 10, 18, 6, -9, 8, -3, 2 ]
-                                [ 22, 45, 18, 9, -7, 10, -3 ]
+                                [ 10, 45, 18, 0, -8, 6, -3, 1, -5, 3, 4 ]
+                                [ 12, 10, 18, 6, -9, 8, -3, 2, 6, 2 ]
+                                [ 22, 45, 18, 9, -7, 10, -3, 5, 12 ]
                 in
                 Expect.equal triangles
                     [ Triangle 45 10 45, Triangle 18 18 18, Triangle 6 8 10 ]
@@ -59,24 +59,24 @@ testFilterTrianglesByType =
                     triangles =
                         filterTrianglesByType RightAngled <|
                             makeTriangles
-                                [ 4, 12, 12, 0, 7, 5 ]
-                                [ 3, 56, 5, 6, 24, 6 ]
-                                [ 5, -6, 13, 7, 25, 7 ]
+                                [ 4, 12, 12, 0, 7, 5, 3, 5 ]
+                                [ 3, 56, 5, 6, 24, 6, 5, 4 ]
+                                [ 5, -6, 13, 7, 25, 7, 4, 3 ]
                 in
                 Expect.equal triangles
-                    [ Triangle 4 3 5, Triangle 12 5 13, Triangle 7 24 25 ]
+                    [ Triangle 4 3 5, Triangle 12 5 13, Triangle 7 24 25, Triangle 3 5 4, Triangle 5 4 3 ]
         , test "filter isosceles triangles" <|
             \_ ->
                 let
                     triangles =
                         filterTrianglesByType Isosceles <|
                             makeTriangles
-                                [ 5, 323, 54, -8, 0, 6 ]
-                                [ 23, 128, 54, 9, 2, 6 ]
-                                [ 23, 462, 12, 9, 3, 6 ]
+                                [ 5, 323, 54, -8, 0, 6, 7, 5 ]
+                                [ 23, 128, 54, 9, 2, 6, 7, 7 ]
+                                [ 23, 462, 12, 9, 3, 6, 5, 5 ]
                 in
                 Expect.equal triangles
-                    [ Triangle 5 23 23, Triangle 54 54 12, Triangle 6 6 6 ]
+                    [ Triangle 5 23 23, Triangle 54 54 12, Triangle 6 6 6, Triangle 7 7 5, Triangle 5 7 5 ]
         , test "filter equiliteral triangles" <|
             \_ ->
                 let

@@ -13,6 +13,7 @@ module Lib exposing
     )
 
 import Dict exposing (Dict)
+import List.Extra as ListExtra
 
 
 {-| Represents a triangle with sides a, b, c.
@@ -36,39 +37,111 @@ type TriangleType
 triangles from those sides.
 -}
 makeTriangles : List Float -> List Float -> List Float -> List Triangle
-makeTriangles xs ys zs =
-    Debug.todo "implement"
+makeTriangles =
+    List.map3 Triangle
 
 
 {-| Write a function that takes a list of triangles and returns a list of only
 valid triangles.
 -}
 filterValidTriangles : List Triangle -> List Triangle
-filterValidTriangles triangles =
-    Debug.todo "implement"
+filterValidTriangles =
+    List.filter isValid
+
+
+isValid : Triangle -> Bool
+isValid triangle =
+    let
+        { a, b, c } =
+            triangle
+    in
+    a + b > c && a + c > b && b + c > a && a > 0 && b > 0 && c > 0
 
 
 {-| Write a function that takes a triangle type and a list of triangles and
 returns a list of triangles that conforms the given type.
 -}
 filterTrianglesByType : TriangleType -> List Triangle -> List Triangle
-filterTrianglesByType triangleType triangles =
-    Debug.todo "implement"
+filterTrianglesByType triangleType =
+    List.filter
+        (sortLongestSide
+            >> (\triangle ->
+                    let
+                        filterByType =
+                            case triangleType of
+                                RightAngled ->
+                                    isRightAngled
+
+                                Isosceles ->
+                                    isIsosceles
+
+                                Equilateral ->
+                                    isEquilateral
+                    in
+                    isValid triangle && filterByType triangle
+               )
+        )
+
+
+sortLongestSide : Triangle -> Triangle
+sortLongestSide triangle =
+    let
+        { a, b, c } =
+            triangle
+    in
+    if c > b && c > a then
+        triangle
+
+    else if b > c && b > a then
+        { a = a
+        , b = c
+        , c = b
+        }
+
+    else
+        { a = c
+        , b = b
+        , c = a
+        }
+
+
+isRightAngled : Triangle -> Bool
+isRightAngled { a, b, c } =
+    a ^ 2 + b ^ 2 == c ^ 2
+
+
+isIsosceles : Triangle -> Bool
+isIsosceles { a, b, c } =
+    a == b || b == c
+
+
+isEquilateral : Triangle -> Bool
+isEquilateral { a, b, c } =
+    a == b && b == c
 
 
 {-| Write a function that takes a list of triangles and returns a list of
 triangles sorted by their area.
 -}
 sortTrianglesByArea : List Triangle -> List Triangle
-sortTrianglesByArea triangles =
-    Debug.todo "implement"
+sortTrianglesByArea =
+    List.sortBy triangleArea
+
+
+triangleArea : Triangle -> Float
+triangleArea { a, b, c } =
+    let
+        s =
+            (a + b + c) / 2
+    in
+    sqrt (s * (s - a) * (s - b) * (s - c))
 
 
 {-| Write a function that takes a list of triangles and returns their area
 -}
 sumTrianglesArea : List Triangle -> Float
-sumTrianglesArea triangles =
-    Debug.todo "implement"
+sumTrianglesArea =
+    List.map triangleArea >> List.sum
 
 
 {-| Write a function that has argument of type Maybe (List Int) and returns
@@ -81,7 +154,11 @@ package and |> operator to chain them together.
 -}
 doubleFirst1 : Maybe (List Int) -> Int
 doubleFirst1 maybeList =
-    Debug.todo "implement"
+    maybeList
+        |> Maybe.withDefault []
+        |> List.head
+        |> Maybe.withDefault 0
+        |> (*) 2
 
 
 {-| Write a function that works in the same way as doubleFirst1 but use point free
@@ -89,7 +166,16 @@ style and >> or << operators to chain needed functions together.
 -}
 doubleFirst2 : Maybe (List Int) -> Int
 doubleFirst2 =
-    Debug.todo "implement"
+    Maybe.withDefault []
+        >> List.head
+        >> Maybe.withDefault 0
+        >> (*) 2
+
+
+doubleFirst2Alternative : Maybe (List Int) -> Int
+doubleFirst2Alternative =
+    Maybe.map (List.head >> Maybe.withDefault 0 >> (*) 2)
+        >> Maybe.withDefault 0
 
 
 {-| Write a function that takes a string that contains property names and
@@ -109,7 +195,7 @@ result and it should return an error if it cannot be parsed.
 -}
 parseValues : String -> Result String (Dict String Float)
 parseValues str =
-    Debug.todo "implement"
+    Err ""
 
 
 {-| This function should return an index of the given element in the list. If
@@ -121,4 +207,4 @@ already has the function and use it here.
 -}
 indexOf : a -> List a -> Maybe Int
 indexOf =
-    Debug.todo "implement"
+    ListExtra.elemIndex
