@@ -46,7 +46,7 @@ testFilterValidTriangles =
                                 [ 22, 45, 18, 9, -7, 10, -3 ]
                 in
                 Expect.equal triangles
-                    [ Triangle 45 10 45, Triangle 18 18 18, Triangle 6 8 9 ]
+                    [ Triangle 45 10 45, Triangle 18 18 18, Triangle 6 8 10 ]
         ]
 
 
