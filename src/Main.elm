@@ -3,6 +3,7 @@ module Main exposing (main)
 import Browser
 import Html exposing (Attribute, Html)
 import Html.Attributes as Attributes
+import Html.Events as Events
 
 
 main : Program () Model Msg
@@ -15,21 +16,27 @@ main =
 
 
 type Msg
-    = NoOp
+    = SelectedTab Tab
+
+
+type Tab
+    = Introduction
+    | Plot
+    | Conclusion
 
 
 type alias Model =
-    {}
+    { selectedTab : Tab }
 
 
 init : Model
 init =
-    {}
+    { selectedTab = Introduction }
 
 
 update : Msg -> Model -> Model
-update msg model =
-    model
+update (SelectedTab tab) model =
+    { model | selectedTab = tab }
 
 
 view : Model -> Html Msg
@@ -41,14 +48,58 @@ view model =
             , Html.a [ Attributes.href "https://www.plot-generator.org.uk/story/", Attributes.target "_blank" ] [ Html.text "Plot Generator" ]
             , Html.text "."
             ]
-        , Html.div tabsStyle
-            [ Html.a (tabStyle ++ tabStyleActive ++ []) [ Html.text "Introduction" ]
-            , Html.a (tabStyle ++ []) [ Html.text "Plot" ]
-            , Html.a (tabStyle ++ []) [ Html.text "Conclusion" ]
-            ]
-        , Html.div []
-            [ introductionContent ]
+        , [ Introduction, Plot, Conclusion ]
+            |> List.map (tabView model)
+            |> Html.div tabsStyle
+        , contentView model
         ]
+
+
+tabView : Model -> Tab -> Html Msg
+tabView { selectedTab } currentTab =
+    let
+        styleAttributes =
+            tabStyle
+                ++ (if selectedTab == currentTab then
+                        tabStyleActive
+
+                    else
+                        []
+                   )
+
+        attributes =
+            SelectedTab currentTab
+                |> Events.onClick
+                |> List.singleton
+                |> (++) styleAttributes
+    in
+    Html.a attributes [ Html.text <| tabLabel currentTab ]
+
+
+tabLabel : Tab -> String
+tabLabel tab =
+    case tab of
+        Introduction ->
+            "Introduction"
+
+        Plot ->
+            "Plot"
+
+        Conclusion ->
+            "Conclusion"
+
+
+contentView : Model -> Html Msg
+contentView { selectedTab } =
+    case selectedTab of
+        Introduction ->
+            introductionContent
+
+        Plot ->
+            plotContent
+
+        Conclusion ->
+            conclusionContent
 
 
 introductionContent : Html Msg

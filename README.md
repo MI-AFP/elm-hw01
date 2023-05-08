@@ -4,6 +4,12 @@ _Homework to practice Elm language and the basics of The Elm Architecture._
 
 ## Scripts
 
+Install dependencies.
+
+```bash
+npm install
+```
+
 Format elm code.
 
 ```bash
