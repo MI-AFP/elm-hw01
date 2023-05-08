@@ -14,6 +14,7 @@ module Lib exposing
 
 import Dict exposing (Dict)
 import List.Extra as ListExtra
+import Regex
 
 
 {-| Represents a triangle with sides a, b, c.
@@ -195,7 +196,40 @@ result and it should return an error if it cannot be parsed.
 -}
 parseValues : String -> Result String (Dict String Float)
 parseValues str =
-    Err ""
+    let
+        updateResult { match } resultDict =
+            let
+                splittedString =
+                    match
+                        |> String.replace " " ""
+                        |> String.split "="
+            in
+            case splittedString of
+                [ key, value ] ->
+                    value
+                        |> String.toFloat
+                        |> Maybe.map
+                            (\floatValue ->
+                                resultDict
+                                    |> Result.andThen (Dict.insert key floatValue >> Ok)
+                            )
+                        |> Maybe.withDefault (Err "Cannot parse string to float")
+
+                _ ->
+                    resultDict
+    in
+    str
+        |> String.replace "\t" ""
+        |> String.replace "\n" ""
+        |> Regex.find parseRegex
+        |> List.foldl updateResult (Ok Dict.empty)
+
+
+parseRegex : Regex.Regex
+parseRegex =
+    "[a-z]+ *= *[a-zA-Z0-9]+(.[0-9]+)?"
+        |> Regex.fromString
+        |> Maybe.withDefault Regex.never
 
 
 {-| This function should return an index of the given element in the list. If
