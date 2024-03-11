@@ -4,6 +4,12 @@ _Homework to practice Elm language and the basics of The Elm Architecture._
 
 ## Scripts
 
+Install dependencies.
+
+```bash
+npm install
+```
+
 Format elm code.
 
 ```bash
@@ -43,6 +49,12 @@ In the file `src/Main.elm`, there is already a structure for the application pre
   - Use `tabStyleActive` for active tab.
 
 To open the application in the web browser, use `elm reactor` then navigate to [http://localhost:8000](http://localhost:8000) and open the `Main.elm` file.
+
+## Expectations
+
+- Feel free to add more tests (for you), create new modules or install new dependencies (if necessary)
+- No need to implement everything (you will receive some points also for non-complete solution)
+- When not sure what to do or how to do, feel free to ask
 
 ## License
 
